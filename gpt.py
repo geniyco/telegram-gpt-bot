@@ -10,7 +10,6 @@ class ChatGptService:
 
     async def send_message_list(self) -> str:
         try:
-            # Отримуємо відповідь від OpenAI
             completion = await self.client.chat.completions.create(
                 model="gpt-4o-mini",  # Використовуємо 4o-mini для стабільності, якщо 5-mini глючить
                 messages=self.message_list,
@@ -22,7 +21,6 @@ class ChatGptService:
             if completion.choices and completion.choices[0].message.content:
                 answer = completion.choices[0].message.content
 
-                # Додаємо в історію як чистий словник
                 self.message_list.append({"role": "assistant", "content": answer})
                 return answer
             else:
@@ -53,11 +51,9 @@ class ChatGptService:
             return f"⚠️ Помилка аналізу фото: {e}"
 
     def set_prompt(self, prompt_text):
-        """Встановлює роль і ОЧИЩАЄ стару історію"""
         self.message_list = [{"role": "system", "content": str(prompt_text)}]
 
     def add_message(self, content):
-        """Додає повідомлення користувача"""
         self.message_list.append({"role": "user", "content": str(content)})
 
 

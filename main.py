@@ -5,8 +5,6 @@ from bot import start, gpt_cmd, talk_cmd, button_handler, handle_text, quiz_cmd,
 import logging
 from credentials import TELEGRAM_TOKEN
 
-
-# Функція для меню
 async def set_commands(app):
     commands = [
         BotCommand("start", "🏠 Головне меню"),
@@ -19,13 +17,12 @@ async def set_commands(app):
     ]
     await app.bot.set_my_commands(commands)
 if __name__ == '__main__':
-    # Створюємо додаток
+
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
-    # --- ДОДАЄМО МЕНЮ КОМАНД ---
     app.post_init = set_commands
 
-    # Реєструємо всі ваші Handler (як ми робили раніше)
+
     from bot import start, gpt_cmd, talk_cmd, quiz_cmd, translate_cmd, random_fact, button_handler, handle_text
 
     app.add_handler(CommandHandler("start", start))
